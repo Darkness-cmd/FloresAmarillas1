@@ -158,6 +158,52 @@
     pointer-events: none; /* Evita que se pueda hacer clic o seleccionar */
     opacity: 0.8; /* Una opacidad agradable */
 }
+/* ======== NUEVO: CÓDIGO PARA QUE SE VEA BIEN EN CELULARES ======== */
+@media (max-width: 768px) {
+
+    /* Hacemos el ramo de flores más pequeño y lo reubicamos */
+    .bouquet-container {
+        transform: scale(0.7); /* Reduce el tamaño del ramo al 70% */
+        margin-bottom: -40px;  /* Reduce el espacio que ocupa */
+    }
+
+    /* Reducimos el tamaño de los títulos para que quepan */
+    h1 {
+        font-size: 2.2em;
+    }
+    
+    #secret-message h2 {
+        font-size: 1.5em;
+    }
+
+    /* Ajustamos el tamaño del texto en general */
+    p, #secret-message p {
+        font-size: 1em;
+    }
+
+    /* Reducimos el espaciado del cuadro de texto */
+    .text-container {
+        padding: 20px 15px;
+        max-width: 90%; /* Ocupa el 90% del ancho del celular */
+    }
+
+    /* Hacemos un poco más pequeño el botón de música */
+    #play-music-button {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        top: 15px;
+        right: 15px;
+    }
+    
+    /* Movemos la marca de agua para que no estorbe */
+    #watermark {
+        font-size: 12px;
+        bottom: 10px;
+        right: 10px;
+    }
+}
+        
     </style>
 </head>
 <body>
@@ -251,3 +297,4 @@
 </body>
 <div id="watermark">BY:DarknessVT666(Darkness-cmd)</div>
 </html>
+
