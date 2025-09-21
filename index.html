@@ -7,6 +7,10 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap');
 
+        html, body {
+            overflow-x: hidden; /* evita movimiento lateral en móviles */
+        }
+
         body {
             background-color: #0c0c1e;
             background-image: radial-gradient(circle, #1a1a3d 0%, #0c0c1e 70%);
@@ -31,7 +35,11 @@
         .large-star.ls1 { width: 40px; height: 40px; top: 5%; left: 70%; animation-delay: 0s; } .large-star.ls2 { width: 50px; height: 50px; top: 80%; left: 15%; animation-delay: 2s; } .large-star.ls3 { width: 30px; height: 30px; top: 40%; left: 85%; animation-delay: 4s; }
         @keyframes pulse-star { 0% { transform: scale(0.9); opacity: 0.1; } 50% { transform: scale(1.1); opacity: 0.25; } 100% { transform: scale(0.9); opacity: 0.1; } }
         .shooting-star { position: absolute; width: 4px; height: 4px; background: linear-gradient(to right, #ffd700, transparent); border-radius: 50%; box-shadow: 0 0 10px 5px rgba(255, 215, 0, 0.7); opacity: 0; pointer-events: none; z-index: 99; animation: fall-and-fade 4s forwards ease-out; }
-        @keyframes fall-and-fade { 0% { transform: translate(0, 0) rotate(45deg) scaleX(1); opacity: 0; width: 4px; height: 4px; } 10% { opacity: 1; width: 150px; height: 4px; } 100% { transform: translate(calc(100vw + 200px), calc(100vh + 200px)) rotate(45deg) scaleX(0.1); opacity: 0; width: 5px; height: 2px; } }
+        @keyframes fall-and-fade {
+            0% { transform: translate(0, 0) rotate(45deg) scaleX(1); opacity: 0; width: 4px; height: 4px; }
+            10% { opacity: 1; width: 150px; height: 4px; }
+            100% { transform: translate(120vw, 120vh) rotate(45deg) scaleX(0.1); opacity: 0; width: 5px; height: 2px; }
+        }
         .cursor-trail { position: absolute; width: 8px; height: 8px; background: #ffd700; border-radius: 50%; pointer-events: none; box-shadow: 0 0 10px 2px #ffd700, 0 0 20px 5px rgba(255, 215, 0, 0.5); animation: fade-out 1s forwards; z-index: 1000; }
         @keyframes fade-out { from { transform: scale(1); opacity: 1; } to { transform: scale(0); opacity: 0; } }
         .bouquet-container { position: relative; width: 300px; height: 300px; cursor: pointer; z-index: 20; margin-bottom: 20px; animation: breathing-bouquet 8s ease-in-out infinite alternate, fade-in-zoom 1.5s ease-out 0.5s forwards; opacity: 0; }
@@ -93,22 +101,20 @@
     <div id="watermark">BY: DarknessVT666 (Darkness-cmd)</div>
 
     <script>
-        // Lógica corregida para el mensaje secreto Y PAUSA DE ANIMACIÓN
         const bouquet = document.getElementById('interactive-bouquet');
         const secretMessageOverlay = document.getElementById('secret-message-overlay');
         const closeButton = document.getElementById('close-button');
 
         bouquet.addEventListener('click', () => {
             secretMessageOverlay.style.display = 'flex';
-            bouquet.classList.add('animation-paused'); // PAUSA la animación del ramo
+            bouquet.classList.add('animation-paused');
         });
 
         closeButton.addEventListener('click', () => {
             secretMessageOverlay.style.display = 'none';
-            bouquet.classList.remove('animation-paused'); // REANUDA la animación del ramo
+            bouquet.classList.remove('animation-paused');
         });
 
-        // Lógica del rastro mágico del cursor (sin cambios)
         document.addEventListener('mousemove', function(e) {
             let trail = document.createElement('div');
             trail.className = 'cursor-trail';
@@ -118,27 +124,29 @@
             setTimeout(() => { trail.remove(); }, 1000);
         });
 
-        // Lógica del botón de música (sin cambios)
-        const musicButton = document.getElementById('play-music-button');
-        const backgroundMusic = document.getElementById('background-music');
-        musicButton.addEventListener('click', () => {
-            if (backgroundMusic.paused) { backgroundMusic.play(); musicButton.innerHTML = '⏸️';
-            } else { backgroundMusic.pause(); musicButton.innerHTML = '🎵'; }
-        });
-
-        // Lógica para generar meteoritos (sin cambios)
         function createShootingStar() {
-            const star = document.createElement('div');
+            let star = document.createElement('div');
             star.className = 'shooting-star';
-            star.style.left = Math.random() * (window.innerWidth / 2) + 'px';
-            star.style.top = Math.random() * (window.innerHeight / 4) + 'px';
-            const size = Math.random() * 2 + 2;
-            star.style.width = size + 'px'; star.style.height = size + 'px';
             document.body.appendChild(star);
-            star.addEventListener('animationend', () => { star.remove(); });
+            star.style.left = Math.random() * window.innerWidth + 'px';
+            star.style.top = Math.random() * window.innerHeight / 2 + 'px';
+            setTimeout(() => { star.remove(); }, 4000);
         }
-        setInterval(createShootingStar, Math.random() * (5000 - 2000) + 2000);
+        setInterval(createShootingStar, 5000);
+
+        const playButton = document.getElementById('play-music-button');
+        const music = document.getElementById('background-music');
+        playButton.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                playButton.textContent = '⏸️';
+            } else {
+                music.pause();
+                playButton.textContent = '🎵';
+            }
+        });
     </script>
 </body>
 </html>
+
 
